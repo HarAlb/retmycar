@@ -1,0 +1,450 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Rent My car",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://rentmy-car.test/api",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "SignIn User",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthByPasswordRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationMessageResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "SignUP User",
+                "operationId": "registerUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationMessageResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/countries": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get Countries with cities",
+                "operationId": "getCountries",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CountryResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/marks": {
+            "get": {
+                "tags": [
+                    "Marks"
+                ],
+                "summary": "Get marks with models",
+                "operationId": "getMarks",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MarkResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/profile": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Get User Profile",
+                "operationId": "getProfile",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/profile/logout": {
+            "post": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Logout User",
+                "operationId": "logoutUser",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AuthByPasswordRequest": {
+                "title": "Auth by password request",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "description": "Email",
+                        "type": "string",
+                        "example": "example@gmail.com"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterRequest": {
+                "title": "Auth by password request",
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Name",
+                        "type": "string",
+                        "example": "My name"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string",
+                        "example": "example@gmail.com"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string",
+                        "example": "password"
+                    },
+                    "password_confirmed": {
+                        "description": "Password Confirmed",
+                        "type": "string",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthResponse": {
+                "title": "Auth response",
+                "properties": {
+                    "token": {
+                        "title": "Bearer token",
+                        "type": "string",
+                        "example": "1|iLWBF5RFQ3kNsEf4bRZaW5H5UVGTKB0J62XNHq960a6c7398"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserResponse"
+                    }
+                },
+                "type": "object"
+            },
+            "CarModelResponse": {
+                "title": "Car Model response",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "title": "Car model name",
+                        "type": "string",
+                        "example": "Giulia"
+                    },
+                    "mark_id": {
+                        "title": "Mark id",
+                        "type": "integer",
+                        "example": 2
+                    }
+                },
+                "type": "object"
+            },
+            "CityResponse": {
+                "title": "City response",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "title": "City",
+                        "type": "string",
+                        "example": "Kabul"
+                    },
+                    "country_id": {
+                        "title": "Country id",
+                        "type": "integer",
+                        "example": 2
+                    }
+                },
+                "type": "object"
+            },
+            "MessageResponse": {
+                "title": "Message response",
+                "properties": {
+                    "message": {
+                        "title": "message",
+                        "type": "string",
+                        "example": "Error"
+                    }
+                },
+                "type": "object"
+            },
+            "ValidationMessageResponse": {
+                "title": "Validation error",
+                "properties": {
+                    "message": {
+                        "title": "message",
+                        "type": "string",
+                        "example": "Error"
+                    },
+                    "errors": {
+                        "properties": {
+                            "email": {
+                                "description": "Сумма зарплаты за месяц",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "CountryResponse": {
+                "title": "Country response",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "title": "Country name",
+                        "type": "string",
+                        "example": "Afghanistan"
+                    },
+                    "cities": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CityResponse"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "MarkResponse": {
+                "title": "Mark response",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "title": "Mark name",
+                        "type": "string",
+                        "example": "Alfa Romeo"
+                    },
+                    "models": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CarModelResponse"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UserResponse": {
+                "title": "User response",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "title": "name",
+                        "type": "string",
+                        "example": "test"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "string",
+                        "example": "example@gmail.com"
+                    },
+                    "email_verified_at": {
+                        "title": "Email Verified time",
+                        "type": "string",
+                        "example": "2025-05-09T22:55:47.000000Z"
+                    },
+                    "created_at": {
+                        "title": "Created time",
+                        "type": "string",
+                        "example": "2025-05-09T22:55:47.000000Z"
+                    },
+                    "updated_at": {
+                        "title": "Updated time",
+                        "type": "string",
+                        "example": "2025-05-09T22:55:47.000000Z"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            },
+            "bearerUserAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Country",
+            "description": "Country"
+        },
+        {
+            "name": "Marks",
+            "description": "Marks"
+        },
+        {
+            "name": "Profile",
+            "description": "Profile"
+        }
+    ]
+}
