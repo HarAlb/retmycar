@@ -5,6 +5,7 @@ use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\MarkController;
 use App\Http\Controllers\User\CountryController;
+use App\Http\Controllers\User\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,11 @@ Route::prefix('auth')->group(function (){
 Route::get('marks', MarkController::class);
 
 Route::get('countries', CountryController::class);
+
+Route::prefix('posts')->group(function (){
+    Route::get('', [PostController::class, 'index']);
+    Route::post('', [PostController::class, 'store'])->middleware('auth:sanctum');
+});
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::prefix('profile')->group(function (){

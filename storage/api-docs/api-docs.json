@@ -141,6 +141,106 @@
                 }
             }
         },
+        "/posts": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Get Posts",
+                "operationId": "getPosts",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/model_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/city_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/seats_min"
+                    },
+                    {
+                        "$ref": "#/components/parameters/seats_max"
+                    },
+                    {
+                        "$ref": "#/components/parameters/price_min"
+                    },
+                    {
+                        "$ref": "#/components/parameters/price_max"
+                    },
+                    {
+                        "$ref": "#/components/parameters/bags_min"
+                    },
+                    {
+                        "$ref": "#/components/parameters/bags_max"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort_by"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort_order"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PostResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Store Posts",
+                "operationId": "storePosts",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StorePostRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationMessageResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/profile": {
             "get": {
                 "tags": [
@@ -243,6 +343,59 @@
                         "description": "Password Confirmed",
                         "type": "string",
                         "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "StorePostRequest": {
+                "title": "Store Post request",
+                "required": [
+                    "model_id",
+                    "city_id",
+                    "seats",
+                    "price",
+                    "transmission",
+                    "fuel"
+                ],
+                "properties": {
+                    "model_id": {
+                        "description": "Car Model ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "city_id": {
+                        "description": "City ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "seats": {
+                        "description": "Seats",
+                        "type": "integer",
+                        "example": "3"
+                    },
+                    "price": {
+                        "description": "Price",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1.2
+                    },
+                    "transmission": {
+                        "description": "Transmission",
+                        "type": "string",
+                        "example": "automatic|manual"
+                    },
+                    "fuel": {
+                        "description": "Fuel",
+                        "type": "string",
+                        "example": "gasoline|petrol"
+                    },
+                    "images[]": {
+                        "description": "Images",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "binary"
+                        }
                     }
                 },
                 "type": "object"
@@ -359,6 +512,22 @@
                 },
                 "type": "object"
             },
+            "ImageResponse": {
+                "title": "Image response",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "path": {
+                        "title": "Path",
+                        "type": "string",
+                        "example": "http://rentmy-car.test/storage/posts/9/screenshot-2025-05-06-110442-zugga.png"
+                    }
+                },
+                "type": "object"
+            },
             "MarkResponse": {
                 "title": "Mark response",
                 "properties": {
@@ -376,6 +545,113 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/CarModelResponse"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PostCityResponse": {
+                "title": "Post City response",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "title": "City",
+                        "type": "string",
+                        "example": "Kabul"
+                    },
+                    "country": {
+                        "properties": {
+                            "id": {
+                                "description": "ID Country",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "name": {
+                                "description": "name Of Country",
+                                "type": "string",
+                                "example": "Afganistan"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "PostModelResponse": {
+                "title": "Post City response",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "title": "City",
+                        "type": "string",
+                        "example": "Kabul"
+                    },
+                    "mark": {
+                        "properties": {
+                            "id": {
+                                "description": "ID Country",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "name": {
+                                "description": "Mark",
+                                "type": "string",
+                                "example": "Alfa Romeo"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "PostResponse": {
+                "title": "Post response",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "city": {
+                        "$ref": "#/components/schemas/PostCityResponse"
+                    },
+                    "model": {
+                        "$ref": "#/components/schemas/PostModelResponse"
+                    },
+                    "seats": {
+                        "title": "Seats",
+                        "type": "integer",
+                        "example": 4
+                    },
+                    "price": {
+                        "title": "Price",
+                        "type": "number",
+                        "format": "float",
+                        "example": 10.2
+                    },
+                    "transmission": {
+                        "title": "transmission",
+                        "type": "string",
+                        "example": "automatic"
+                    },
+                    "fuel": {
+                        "title": "Fuel",
+                        "type": "string",
+                        "example": "gasoline"
+                    },
+                    "images": {
+                        "title": "Fuel",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ImageResponse"
                         }
                     }
                 },
@@ -418,12 +694,100 @@
                 "type": "object"
             }
         },
+        "parameters": {
+            "bags_max": {
+                "name": "bags_max",
+                "in": "query",
+                "description": "Bags Max",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "bags_min": {
+                "name": "bags_min",
+                "in": "query",
+                "description": "Bags Min",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "city_id": {
+                "name": "city_id",
+                "in": "query",
+                "description": "City Id",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "model_id": {
+                "name": "model_id",
+                "in": "query",
+                "description": "Model Id",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "price_max": {
+                "name": "price_max",
+                "in": "query",
+                "description": "Price Max param",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "price_min": {
+                "name": "price_min",
+                "in": "query",
+                "description": "Price Min param",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "seats_max": {
+                "name": "seats_max",
+                "in": "query",
+                "description": "Seats Max param",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "seats_min": {
+                "name": "seats_min",
+                "in": "query",
+                "description": "Seats Min param",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "sort_by": {
+                "name": "sort_by",
+                "in": "query",
+                "description": "Sort By param",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "sort_order": {
+                "name": "sort_order",
+                "in": "query",
+                "description": "Sort Order param",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        },
         "securitySchemes": {
             "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer"
-            },
-            "bearerUserAuth": {
                 "type": "http",
                 "scheme": "bearer"
             }
@@ -441,6 +805,10 @@
         {
             "name": "Marks",
             "description": "Marks"
+        },
+        {
+            "name": "Posts",
+            "description": "Posts"
         },
         {
             "name": "Profile",
