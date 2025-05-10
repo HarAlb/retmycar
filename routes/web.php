@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/clear-cache', function () {
+   \Illuminate\Support\Facades\Artisan::call('cache:clear');
+});
+
+Route::get('/generate-doc', function () {
+    \Illuminate\Support\Facades\Artisan::call('l5-swagger:generate');
+});
