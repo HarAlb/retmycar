@@ -11,7 +11,7 @@ class CountryResponse
     public int $id;
 
     #[OAT\Property(title: 'Country name', example: 'Afghanistan')]
-    public string $name;
+    public string $country;
 
     #[OAT\Property(
         items: new OAT\Items(ref: '#/components/schemas/CityResponse'),

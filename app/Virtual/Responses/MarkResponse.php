@@ -11,7 +11,7 @@ class MarkResponse
     public int $id;
 
     #[OAT\Property(title: 'Mark name', example: 'Alfa Romeo')]
-    public string $name;
+    public string $brand;
 
     #[OAT\Property(
         items: new OAT\Items(ref: '#/components/schemas/CarModelResponse'),

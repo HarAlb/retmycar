@@ -27,7 +27,7 @@ class MarkController extends Controller
     public function __invoke(): JsonResponse
     {
         return response()->json(
-            Mark::query()->with('models')->get()
+            Mark::query()->select('id', 'name as brand')->with('models')->get()
         );
     }
 }

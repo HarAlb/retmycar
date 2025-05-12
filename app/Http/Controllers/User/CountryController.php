@@ -28,7 +28,7 @@ class CountryController extends Controller
     public function __invoke(): JsonResponse
     {
         return response()->json(
-            Country::query()->with('cities')->get()
+            Country::query()->select('id', 'name as county')->with('cities')->get()
         );
     }
 }
