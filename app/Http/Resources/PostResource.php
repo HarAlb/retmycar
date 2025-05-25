@@ -23,7 +23,11 @@ class PostResource extends JsonResource
             'transmission' => $this->transmission,
             'fuel' => $this->fuel,
             'images' => ImageResource::collection($this->whenLoaded('images')),
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'user' => $this->whenLoaded('user'),
+            'is_favorite' => $this->whenLoaded('favoritedByUsers', function () {
+                return $this->favoritedByUsers->contains(auth()->id());
+            }),
         ];
     }
 }

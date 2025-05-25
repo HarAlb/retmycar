@@ -117,6 +117,115 @@
                 }
             }
         },
+        "/posts/favorites": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Get Favorite Posts",
+                "operationId": "getFavoritePosts",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PostResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/posts/{id}/favorite": {
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "To favorite",
+                "operationId": "storeFavorite",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationMessageResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "delete favorite",
+                "operationId": "deleteFavorite",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationMessageResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/marks": {
             "get": {
                 "tags": [
@@ -229,6 +338,99 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ValidationMessageResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/posts/{id}": {
+            "put": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Update Posts",
+                "operationId": "updatePost",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/id"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Fail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationMessageResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Delete Posts",
+                "operationId": "deletePost",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/id"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/noContent"
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MessageResponse"
                                 }
                             }
                         }
@@ -400,6 +602,67 @@
                 },
                 "type": "object"
             },
+            "UpdateRequest": {
+                "title": "Store Post request",
+                "required": [
+                    "model_id",
+                    "city_id",
+                    "seats",
+                    "price",
+                    "transmission",
+                    "fuel"
+                ],
+                "properties": {
+                    "model_id": {
+                        "description": "Car Model ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "city_id": {
+                        "description": "City ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "seats": {
+                        "description": "Seats",
+                        "type": "integer",
+                        "example": "3"
+                    },
+                    "price": {
+                        "description": "Price",
+                        "type": "number",
+                        "format": "float",
+                        "example": 1.2
+                    },
+                    "transmission": {
+                        "description": "Transmission",
+                        "type": "string",
+                        "example": "automatic|manual"
+                    },
+                    "fuel": {
+                        "description": "Fuel",
+                        "type": "string",
+                        "example": "gasoline|petrol"
+                    },
+                    "images[]": {
+                        "description": "Images",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "binary"
+                        }
+                    },
+                    "save_image_ids[]": {
+                        "description": "Save Image Ids",
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "AuthResponse": {
                 "title": "Auth response",
                 "properties": {
@@ -498,7 +761,7 @@
                         "type": "integer",
                         "example": 2
                     },
-                    "name": {
+                    "country": {
                         "title": "Country name",
                         "type": "string",
                         "example": "Afghanistan"
@@ -536,7 +799,7 @@
                         "type": "integer",
                         "example": 2
                     },
-                    "name": {
+                    "brand": {
                         "title": "Mark name",
                         "type": "string",
                         "example": "Alfa Romeo"
@@ -623,6 +886,9 @@
                     "city": {
                         "$ref": "#/components/schemas/PostCityResponse"
                     },
+                    "user": {
+                        "$ref": "#/components/schemas/UserShortResponse"
+                    },
                     "model": {
                         "$ref": "#/components/schemas/PostModelResponse"
                     },
@@ -653,6 +919,11 @@
                         "items": {
                             "$ref": "#/components/schemas/ImageResponse"
                         }
+                    },
+                    "is_favorite": {
+                        "title": "Is favorite",
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -692,6 +963,37 @@
                     }
                 },
                 "type": "object"
+            },
+            "UserShortResponse": {
+                "title": "User Short response",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "title": "name",
+                        "type": "string",
+                        "example": "test"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "string",
+                        "example": "example@gmail.com"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "noContent": {
+                "description": "No content",
+                "content": {
+                    "application/json": {
+                        "schema": {}
+                    }
+                }
             }
         },
         "parameters": {
@@ -721,6 +1023,16 @@
                 "schema": {
                     "type": "string"
                 }
+            },
+            "id": {
+                "name": "id",
+                "in": "path",
+                "description": "ID",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": 6
             },
             "model_id": {
                 "name": "model_id",
@@ -803,12 +1115,12 @@
             "description": "Country"
         },
         {
-            "name": "Marks",
-            "description": "Marks"
-        },
-        {
             "name": "Posts",
             "description": "Posts"
+        },
+        {
+            "name": "Marks",
+            "description": "Marks"
         },
         {
             "name": "Profile",

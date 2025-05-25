@@ -13,6 +13,9 @@ class PostResponse
     #[OAT\Property(description: 'City')]
     public PostCityResponse $city;
 
+    #[OAT\Property(description: 'User')]
+    public UserShortResponse $user;
+
     #[OAT\Property(description: 'Model')]
     public PostModelResponse $model;
 
@@ -30,4 +33,7 @@ class PostResponse
 
     #[OAT\Property(title: 'Fuel', items: new OAT\Items(ref: '#/components/schemas/ImageResponse'))]
     public array $images;
+
+    #[OAT\Property(title: 'Is favorite', example: true)]
+    public bool $is_favorite;
 }

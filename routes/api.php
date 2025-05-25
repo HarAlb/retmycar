@@ -5,6 +5,7 @@ use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\MarkController;
 use App\Http\Controllers\User\CountryController;
+use App\Http\Controllers\User\FavoriteController;
 use App\Http\Controllers\User\PostController;
 
 /*
@@ -29,7 +30,12 @@ Route::get('countries', CountryController::class);
 
 Route::prefix('posts')->group(function (){
     Route::get('', [PostController::class, 'index']);
+    Route::get('/favorites', [FavoriteController::class, 'index'])->middleware('auth:sanctum');
+    Route::post('/{id}/favorite', [FavoriteController::class, 'store'])->middleware('auth:sanctum');
+    Route::delete('/{id}/favorite', [FavoriteController::class, 'destroy'])->middleware('auth:sanctum');
     Route::post('', [PostController::class, 'store'])->middleware('auth:sanctum');
+    Route::put('/{id}', [PostController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/{id}', [PostController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
 Route::middleware('auth:sanctum')->group(function (){
