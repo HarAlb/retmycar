@@ -27,8 +27,8 @@ class StorePostRequest extends FormRequest
             'city_id' => 'required|exists:cities,id',
             'seats' => 'required|integer|max:255',
             'price' => 'required|numeric',
-            'transmission' => 'required|in:automatic,manual',
-            'fuel' => 'required|in:gasoline,petrol',
+            'transmission' => 'required',
+            'fuel' => 'required',
             'images' => 'required|array',
             'images.*' => [
                 'required',
