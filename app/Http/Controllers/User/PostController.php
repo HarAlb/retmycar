@@ -170,7 +170,7 @@ class PostController extends Controller
         foreach ($imagesForDelete as $item){
             Storage::disk($disk)->delete("$item->path/$item->filename");
 
-            $item->destroy();
+            $item->delete();
         }
 
         foreach ($request->file('images') ?? [] as $item) {
@@ -222,10 +222,10 @@ class PostController extends Controller
         foreach ($imagesForDelete as $item){
             Storage::disk($disk)->delete("$item->path/$item->filename");
 
-            $item->destroy();
+            $item->delete();
         }
 
-        $post->destroy();
+        $post->delete();
 
         return response()->noContent();
     }
