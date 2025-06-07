@@ -25,7 +25,7 @@ class StorePostRequest extends FormRequest
         return [
             'model_id' => 'required|exists:car_models,id',
             'city_id' => 'required|exists:cities,id',
-            'seats' => 'required|integer|max:255',
+            'seats' => 'required|string|max:255',
             'price' => 'required|numeric',
             'transmission' => 'required',
             'fuel' => 'required',
