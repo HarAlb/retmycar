@@ -34,7 +34,6 @@ class UpdatePostRequest extends FormRequest
                 'nullable',
                 'file',
                 'min:1',
-                'mimes:' . implode(',', StorageFileEnum::IMAGE_MIMES),
                 'max:' . StorageFileENUM::UPLOAD_MAX_FILE_SIZE * 1024 * 1024
             ],
             'save_image_ids' => 'nullable|array',
