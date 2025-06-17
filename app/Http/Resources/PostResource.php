@@ -19,7 +19,7 @@ class PostResource extends JsonResource
             'city' => CityResource::make($this->whenLoaded('city')),
             'model' => ModelResource::make($this->whenLoaded('model')),
             'seats' => $this->seats,
-            'price' => floatval($this->price),
+            'price' => $this->price,
             'transmission' => $this->transmission,
             'fuel' => $this->fuel,
             'images' => ImageResource::collection($this->whenLoaded('images')),
