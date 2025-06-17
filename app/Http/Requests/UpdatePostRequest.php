@@ -26,7 +26,7 @@ class UpdatePostRequest extends FormRequest
             'model_id' => 'required|exists:car_models,id',
             'city_id' => 'required|exists:cities,id',
             'seats' => 'required|string|max:255',
-            'price' => 'required|numeric',
+            'price' => 'required',
             'transmission' => 'required',
             'fuel' => 'required',
             'images' => 'nullable|array',
