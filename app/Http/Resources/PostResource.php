@@ -26,7 +26,7 @@ class PostResource extends JsonResource
             'created_at' => $this->created_at,
             'user' => $this->whenLoaded('user'),
             'is_favorite' => $this->whenLoaded('favoritedByUsers', function () {
-                return $this->favoritedByUsers->contains(auth()->id());
+                return $this->favoritedByUsers->contains(request()->user('sanctum')?->id);
             }),
         ];
     }
