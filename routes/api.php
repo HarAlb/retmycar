@@ -29,7 +29,7 @@ Route::get('marks', MarkController::class);
 Route::get('countries', CountryController::class);
 
 Route::prefix('posts')->group(function (){
-    Route::get('', [PostController::class, 'index']);
+    Route::get('', [PostController::class, 'index'])->middleware('auth:sanctum');
     Route::get('/favorites', [FavoriteController::class, 'index'])->middleware('auth:sanctum');
     Route::post('/{id}/favorite', [FavoriteController::class, 'store'])->middleware('auth:sanctum');
     Route::delete('/{id}/favorite', [FavoriteController::class, 'destroy'])->middleware('auth:sanctum');

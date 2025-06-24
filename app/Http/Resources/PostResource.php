@@ -25,8 +25,8 @@ class PostResource extends JsonResource
             'images' => ImageResource::collection($this->whenLoaded('images')),
             'created_at' => $this->created_at,
             'user' => $this->whenLoaded('user'),
-            'is_favorite' => $this->whenLoaded('favoritedByUsers', function () use ($request) {
-                return $this->favoritedByUsers->contains(request()->user()?->id());
+            'is_favorite' => $this->whenLoaded('favoritedByUsers', function () {
+                return $this->favoritedByUsers->contains(auth()->id());
             }),
         ];
     }
