@@ -26,6 +26,7 @@ Route::prefix('auth')->group(function (){
 
 Route::get('marks', MarkController::class);
 
+
 Route::get('countries', CountryController::class);
 
 Route::prefix('posts')->group(function (){
