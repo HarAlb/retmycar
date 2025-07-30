@@ -43,6 +43,7 @@ class Post extends Model
 
     public function favoritedByUsers()
     {
+
         return $this->belongsToMany(User::class, 'favorites');
     }
 
